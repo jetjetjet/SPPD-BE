@@ -126,6 +126,38 @@ class RoleController extends Controller
 		return response()->json($results, $results['state_code']);
 	}
 
+	public function getPermission(Request $request)
+	{
+		$results = $this->responses;
+		$perms = Permission::all()->pluck('name');
+
+		$arrPerms = array();
+		foreach($perms as $key => $perm){
+			$module = explode('-', $perm);
+			$uppModule = ucwords($module[0]);
+			if(!isset($arrPerms[$uppModule])){
+				$arrPerms[$uppModule] = $uppModule; 
+				
+				$arrPerms[$uppModule] = array();
+				$arrPerms[$uppModule]['module'] = $uppModule;
+				$arrPerms[$uppModule]['actions'] = array();
+			}
+
+			$action = array();
+			$action['raw'] = $module[1];
+			$action['value'] = $perm;
+			$action['active'] = false;
+			array_push($arrPerms[$uppModule]['actions'], $action);
+		}
+		ksort($arrPerms);
+
+		$results['data'] = $arrPerms;
+		$results['state_code'] = 200;
+		$results['success'] = true;
+		
+		return response()->json($results, $results['state_code']);
+	}
+
 	/**
 	 * Update the specified resource in storage.
 	 *
