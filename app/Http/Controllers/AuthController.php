@@ -61,4 +61,13 @@ class AuthController extends Controller
 
 		return response()->json($results, $results['state_code']);
 	}
+
+	public function logout()
+  {
+    $user = auth('sanctum')->user();
+    $idUser = $user->id ?? 0;
+    $user->currentAccessToken()->delete();
+		
+    return response()->json(['success' => true], 200);
+  }
 }

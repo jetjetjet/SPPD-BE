@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AnggaranController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
@@ -21,25 +22,34 @@ use App\Http\Controllers\UserController;
 Route::post('login', [AuthController::class, 'login'])->name('login');
 
 Route::group(['middleware' => 'auth:sanctum'], function() {
+	Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
+	Route::get('/anggaran-grid', [AnggaranController::class, 'grid']);
+	Route::resource('anggaran', AnggaranController::class)->only([
+    'show', 'store', 'update', 'destroy'
+	]);
+
+	Route::get('/role/{id}', [AnggaranController::class, 'show']);
+	Route::post('/role', [AnggaranController::class, 'store']);
+	Route::put('/role/{id}', [AnggaranController::class, 'update']);
+	Route::delete('/role/{id}',  [AnggaranController::class, 'destroy']);
 	
 	Route::get('/role-grid', [RoleController::class, 'grid']);
-	Route::get('/role/{id}', [RoleController::class, 'show']);
 	Route::get('/role-permissions', [RoleController::class, 'getPermission']);
-	Route::post('/role', [RoleController::class, 'store']);
-	Route::put('/role/{id}', [RoleController::class, 'update']);
-	Route::delete('/role/{id}',  [RoleController::class, 'destroy']);
+	Route::resource('role', RoleController::class)->only([
+    'show', 'store', 'update', 'destroy'
+	]);
 	
 	Route::get('/user-grid', [UserController::class, 'grid']);
-	Route::get('/user/{id}', [UserController::class, 'show']);
-	Route::post('/user', [UserController::class, 'store']);
-	Route::put('/user/{id}', [UserController::class, 'update']);
+	Route::resource('user', RoleController::class)->only([
+    'show', 'store', 'update', 'destroy'
+	]);
 	Route::put('/user/{id}/change-password', [UserController::class, 'changePassword']);
 	Route::put('/user/{id}/change-photo', [UserController::class, 'changePhoto']);
-	Route::delete('/user/{id}',  [UserController::class, 'destroy']);
 
-	Route::get('/profile/{id}', [ProfileController::class, 'show']);
-	Route::put('/profile/{id}', [ProfileController::class, 'update']);
+	Route::resource('profile', RoleController::class)->only([
+    'show', 'update'
+	]);
 	Route::put('/profile/{id}/change-password', [ProfileController::class, 'updateProfilePassword']);
 	Route::put('/profile/{id}/change-photo', [ProfileController::class, 'updateProfilePhoto']);
 });
