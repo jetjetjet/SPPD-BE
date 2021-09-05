@@ -45,6 +45,7 @@ class UserController extends Controller
 			'jenis_kelamin' => 'required',
 			'jenis_kelamin' => 'required',
 			'role' => 'required',
+			'phone' => 'max:15'
 		);
 
 		$validator = Validator::make($inputs, $rules);
@@ -121,7 +122,6 @@ class UserController extends Controller
 			'email' => 'required',
 			'full_name' => 'required',
 			'jenis_kelamin' => 'required',
-			'jenis_kelamin' => 'required',
 			'role' => 'required'
 		);
 
@@ -141,7 +141,7 @@ class UserController extends Controller
 			'jenis_kelamin' => $inputs['jenis_kelamin'],
 			'address' => $inputs['address'] ?? null,
 			'phone' => $inputs['phone'] ?? null,
-			'ttl' => $inputs['ttl'] ?? null
+			'tgl_lahir' => $inputs['tgl_lahir'] ?? null
 		]);
 		
 

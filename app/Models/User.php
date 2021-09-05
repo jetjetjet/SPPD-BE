@@ -27,7 +27,7 @@ class User extends Authenticatable
         ,'email'
         ,'password'
         ,'full_name'
-        ,'ttl'
+        ,'tgl_lahir'
         ,'ttd'
         ,'jenis_kelamin'
         ,'path_foto'

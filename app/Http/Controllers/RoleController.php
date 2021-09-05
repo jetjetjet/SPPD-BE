@@ -139,7 +139,6 @@ class RoleController extends Controller
 
 		$inputs = $request->all();
 		$rules = array(
-			'id' => 'required',
 			'name' => 'required',
 		);
 
